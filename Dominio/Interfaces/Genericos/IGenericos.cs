@@ -11,7 +11,7 @@ namespace Dominio.Interfaces.Genericos
         Task Adicionar(T obj);
         Task Atualizar(T obj);
         Task Excluir(T obj);
-        Task<T> BuscarPorIs(int id);
+        Task<T> BuscarPorId(int id);
         Task<List<T>> Listar();
     }
 }
