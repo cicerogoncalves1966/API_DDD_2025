@@ -36,7 +36,7 @@ namespace Infraestrutura.Configuracoes
 
         public string ObterStringConexao()
         {
-            string strcon = "User ID=developer;Password=ev@luAt10n;Host=localhost;Port=5432;Database=dbNoticias;Pooling=true;Min Pool Size=0;Max Pool Size=100;Connection Lifetime=0;";
+            string strcon = "User ID=developer;Password=ev@luAt10n;Host=localhost;Port=5432;Database=dbNoticias;Pooling=true;";
             return strcon;
         }
     }

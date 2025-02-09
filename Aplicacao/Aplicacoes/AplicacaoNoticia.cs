@@ -2,11 +2,6 @@
 using Dominio.Interfaces;
 using Dominio.Interfaces.InterfacesSericos;
 using Entidades.Entidades;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Aplicacao.Aplicacoes
 {

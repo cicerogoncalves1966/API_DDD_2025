@@ -63,7 +63,7 @@ namespace Infraestrutura.Repositorio.Genericos
             }
         }
 
-        #region Microsoft Dispose()
+        #region Disposed https://docs.microsoft.com/pt-br/dotnet/standard/garbage-collection/implementing-dispose
         // Pointer to an external unmanaged resource.
         private IntPtr handle;
         // Other managed resource this class uses.
@@ -97,18 +97,15 @@ namespace Infraestrutura.Repositorio.Genericos
             // Check to see if Dispose has already been called.
             if (!this.disposed)
             {
-                // If disposing equals true, dispose all managed
-                // and unmanaged resources.
+                // If disposing equals true, dispose all managed and unmanaged resources.
                 if (disposing)
                 {
                     // Dispose managed resources.
                     component.Dispose();
                 }
 
-                // Call the appropriate methods to clean up
-                // unmanaged resources here.
-                // If disposing is false,
-                // only the following code is executed.
+                // Call the appropriate methods to clean up unmanaged resources here.
+                // If disposing is false, only the following code is executed.
                 CloseHandle(handle);
                 handle = IntPtr.Zero;
 

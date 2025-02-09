@@ -9,7 +9,7 @@ namespace Entidades.Entidades
         [Column("USR_IDADE")]
         public int Idade { get; set; }
 
-        [Column("USER_CELULAR")]
+        [Column("USR_CELULAR")]
         public string Celular { get; set; }
 
         [Column("USR_TIPO")]

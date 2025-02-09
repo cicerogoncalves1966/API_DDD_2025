@@ -1,13 +1,9 @@
 ﻿using Dominio.Interfaces;
 using Entidades.Entidades;
+using Entidades.Enums;
 using Infraestrutura.Configuracoes;
 using Infraestrutura.Repositorio.Genericos;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infraestrutura.Repositorio
 {
@@ -32,7 +28,8 @@ namespace Infraestrutura.Repositorio
                                    Email = email,
                                    PasswordHash = senha,
                                    Idade = idade,
-                                   Celular = celular
+                                   Celular = celular,
+                                   Tipo = TipoUsuario.Operacao
                                });
                     await data.SaveChangesAsync();
                 }
@@ -50,7 +47,7 @@ namespace Infraestrutura.Repositorio
             {
                 using (var data = new Contexto(_optionsBuilder))
                 {
-                    await data.ApplicationUser
+                    _ = await data.ApplicationUser
                         .Where(u => u.Email.Equals(email) && u.PasswordHash.Equals(senha))
                         .AsNoTracking() // uso de boas práticas
                         .AnyAsync();
