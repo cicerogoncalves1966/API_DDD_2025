@@ -2,16 +2,18 @@
 using Aplicacao.Interfaces;
 using Dominio.Interfaces;
 using Dominio.Interfaces.Genericos;
-using Dominio.Interfaces.InterfacesSericos;
+using Dominio.Interfaces.InterfaceServicos;
 using Dominio.Servicos;
 using Entidades.Entidades;
 using Infraestrutura.Configuracoes;
 using Infraestrutura.Repositorio;
 using Infraestrutura.Repositorio.Genericos;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System;
 using WebAPI.Token;
 
 namespace WebAPI
@@ -29,11 +31,24 @@ namespace WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
 
+
+            // *** CONFIGURAÇÃO PARA RODAR COM SQL-SERVER *********************
+            //services.AddDbContext<Contexto>(options =>
+            // options.UseSqlServer(
+            //     Configuration.GetConnectionString("DefaultConnection")));
+
+            // *** CONFIGURACAO ORIGINAL ADDDEFAULTIDENTITY *******************
+            //services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+            //    .AddEntityFrameworkStores<Contexto>();
+
+            // *** CONFIGURAÇÃO PARA BANCO DE DADOS POSTGRE-SQL ***************
             services.AddDbContext<Contexto>(options =>
              options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddEntityFrameworkStores<Contexto>();
+            // *** CONFIGURAÇÃO .NET 8 PARA ADDIDENTITY ***********************
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                    .AddEntityFrameworkStores<Contexto>()
+                    .AddDefaultTokenProviders();
 
             // INTERFACE E REPOSITORIO
             services.AddSingleton(typeof(IGenericos<>), typeof(RepositorioGenerico<>));

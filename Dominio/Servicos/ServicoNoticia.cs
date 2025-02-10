@@ -1,5 +1,5 @@
 ﻿using Dominio.Interfaces;
-using Dominio.Interfaces.InterfacesSericos;
+using Dominio.Interfaces.InterfaceServicos;
 using Entidades.Entidades;
 
 namespace Dominio.Servicos

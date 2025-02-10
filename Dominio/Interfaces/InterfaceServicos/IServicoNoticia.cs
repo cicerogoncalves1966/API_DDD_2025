@@ -1,6 +1,6 @@
 ﻿using Entidades.Entidades;
 
-namespace Dominio.Interfaces.InterfacesSericos
+namespace Dominio.Interfaces.InterfaceServicos
 {
     public interface IServicoNoticia
     {
