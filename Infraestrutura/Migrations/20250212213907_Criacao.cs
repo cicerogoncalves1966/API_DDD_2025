@@ -167,11 +167,11 @@ namespace Infraestrutura.Migrations
                     UserId = table.Column<string>(type: "text", nullable: false),
                     NTC_ID = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    NTC_TITULO = table.Column<string>(name: "NTC _TITULO", type: "character varying(255)", maxLength: 255, nullable: false),
-                    NTC_INFORMACAO = table.Column<string>(name: "NTC _INFORMACAO", type: "character varying(1024)", maxLength: 1024, nullable: false),
-                    NTC_ATIVO = table.Column<bool>(name: "NTC _ATIVO", type: "boolean", nullable: false),
-                    NTC_DATA_CADASTRO = table.Column<DateTime>(name: "NTC _DATA_CADASTRO", type: "timestamp with time zone", nullable: true),
-                    NTC_DATA_ALTERACAO = table.Column<DateTime>(name: "NTC _DATA_ALTERACAO", type: "timestamp with time zone", nullable: true)
+                    NTC_TITULO = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    NTC_INFORMACAO = table.Column<string>(type: "character varying(1024)", maxLength: 1024, nullable: false),
+                    NTC_ATIVO = table.Column<bool>(type: "boolean", nullable: false),
+                    NTC_DATA_CADASTRO = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    NTC_DATA_ALTERACAO = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {

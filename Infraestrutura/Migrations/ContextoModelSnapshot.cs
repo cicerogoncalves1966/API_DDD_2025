@@ -110,27 +110,27 @@ namespace Infraestrutura.Migrations
 
                     b.Property<bool>("Ativo")
                         .HasColumnType("boolean")
-                        .HasColumnName("NTC _ATIVO");
+                        .HasColumnName("NTC_ATIVO");
 
                     b.Property<DateTime?>("DataAlteracao")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("NTC _DATA_ALTERACAO");
+                        .HasColumnName("NTC_DATA_ALTERACAO");
 
                     b.Property<DateTime?>("DataCadastro")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("NTC _DATA_CADASTRO");
+                        .HasColumnName("NTC_DATA_CADASTRO");
 
                     b.Property<string>("Informacao")
                         .IsRequired()
                         .HasMaxLength(1024)
                         .HasColumnType("character varying(1024)")
-                        .HasColumnName("NTC _INFORMACAO");
+                        .HasColumnName("NTC_INFORMACAO");
 
                     b.Property<string>("Titulo")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
-                        .HasColumnName("NTC _TITULO");
+                        .HasColumnName("NTC_TITULO");
 
                     b.Property<string>("UserId")
                         .IsRequired()

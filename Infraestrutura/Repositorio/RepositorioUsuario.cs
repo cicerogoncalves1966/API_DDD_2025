@@ -3,6 +3,7 @@ using Entidades.Entidades;
 using Entidades.Enums;
 using Infraestrutura.Configuracoes;
 using Infraestrutura.Repositorio.Genericos;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infraestrutura.Repositorio
@@ -15,7 +16,7 @@ namespace Infraestrutura.Repositorio
         {
             _optionsBuilder = new DbContextOptions<Contexto>();
         }
-
+         
         public async Task<bool> AdicionaUsuario(string email, string senha, int idade, string celular)
         {
             try
@@ -47,17 +48,36 @@ namespace Infraestrutura.Repositorio
             {
                 using (var data = new Contexto(_optionsBuilder))
                 {
-                    _ = await data.ApplicationUser
-                        .Where(u => u.Email.Equals(email) && u.PasswordHash.Equals(senha))
-                        .AsNoTracking() // uso de boas práticas
-                        .AnyAsync();
-                }
+                    return await data.ApplicationUser
+                                     .Where(u => u.Email.Equals(email) && u.PasswordHash.Equals(senha))
+                                     .AsNoTracking()
+                                     .AnyAsync();
+               }
             }
             catch (Exception ex)
             {
                 return false;
             }
-            return true;
+        }
+
+        public async Task<string> RetornaIdUsuario(string email)
+        {
+            try
+            {
+                using (var data = new Contexto (_optionsBuilder))
+                {
+                    var usuario = data.ApplicationUser
+                                      .Where(u => u.Email.Equals(email))
+                                      .AsNoTracking()
+                                      .FirstAsync();
+                    // Deve usar usuario.Result para obter as colunas da tabela -------
+                    return usuario.Result.Id;
+                }
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
         }
     }
 }

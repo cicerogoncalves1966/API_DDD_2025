@@ -20,7 +20,7 @@ namespace Dominio.Servicos
 
             if (validarTitulo && validarInformacao)
             {
-                noticia.DataCadastro = DateTime.Now;
+                noticia.DataCadastro = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc).ToUniversalTime();
                 noticia.Ativo = true;
 
                 await _INoticia.Adicionar(noticia);
@@ -34,7 +34,7 @@ namespace Dominio.Servicos
 
             if (validarTitulo && validarInformacao)
             {
-                noticia.DataAlteracao = DateTime.Now;
+                noticia.DataAlteracao = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc).ToUniversalTime();
                 noticia.Ativo = true;
 
                 await _INoticia.Atualizar(noticia);
