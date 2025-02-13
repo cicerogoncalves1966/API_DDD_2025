@@ -31,6 +31,8 @@ namespace WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
 
+            // Configurações de CORS
+            services.AddCors();
 
             // *** CONFIGURAÇÃO PARA RODAR COM SQL-SERVER *********************
             //services.AddDbContext<Contexto>(options =>
@@ -102,6 +104,11 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // Configurações de CORS - Lista de URLs com permissão de acesso
+            var listURL1 = "https://www.mestresdaweb.com.br/";
+            var listURL2 = "https://www.youtube.com/";
+            app.UseCors(c => c.WithOrigins(listURL1, listURL2));
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
