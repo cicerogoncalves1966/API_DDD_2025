@@ -28,62 +28,10 @@ namespace WebAPI.Controllers
             _signInManager = signInManager;
         }
 
-        //[AllowAnonymous]
-        //[Produces("application/json")]
-        //[HttpPost("/api/CriarToken")]
-        //public async Task<IActionResult> CriarToken([FromBody] Login login)
-        //{
-        //    if (string.IsNullOrWhiteSpace(login.email) || string.IsNullOrWhiteSpace(login.senha))
-        //        return Unauthorized();
-
-        //    var resultado = await _IAplicacaoUsuario.ExisteUsuario(login.email, login.senha);
-        //    if (resultado)
-        //    {
-        //        var secKey = JwtSecurityKey.Create("Secret_Key-12345678901234567890123456789012");
-        //        var idUsuario = await _IAplicacaoUsuario.RetornaIdUsuario(login.email);
-        //        if (idUsuario == null)
-        //            return NotFound();
-        //        var token = new TokenJWTBuilder()
-        //        .AddSecurityKey(secKey)
-        //        .AddSubject("Empresa - Canal Dev Net Core")
-        //        .AddIssuer("Teste.Securiry.Bearer")
-        //        .AddAudience("Teste.Securiry.Bearer")
-        //        .AddClaim("idUsuario", idUsuario)
-        //        .AddExpiry(5)
-        //        .Builder();
-
-        //        return Ok(token.value);
-        //    }
-        //    else
-        //    {
-        //        return Unauthorized();
-        //    }
-
-        //}
-
-
-        //[AllowAnonymous]
-        //[Produces("application/json")]
-        //[HttpPost("/api/AdicionaUsuario")]
-        //public async Task<IActionResult> AdicionaUsuario([FromBody] Login login)
-        //{
-        //    if (string.IsNullOrWhiteSpace(login.email) || string.IsNullOrWhiteSpace(login.senha))
-        //        return Ok("Falta alguns dados");
-
-        //    var resultado = await
-        //        _IAplicacaoUsuario.AdicionaUsuario(login.email, login.senha, login.idade, login.celular);
-
-        //    if (resultado)
-        //        return Ok("Usuário Adicionado com Sucesso");
-        //    else
-        //        return Ok("Erro ao adicionar usuário");
-        //}
-
-
         [AllowAnonymous]
         [Produces("application/json")]
         [HttpPost("/api/CriarTokenIdentity")]
-        public async Task<IActionResult> CriarTokenIdentity([FromBody] Login login)
+        public async Task<IActionResult> CriarTokenIdentity([FromBody] LoginModel login)
         {
             if (string.IsNullOrWhiteSpace(login.email) || string.IsNullOrWhiteSpace(login.senha))
                 return Unauthorized();
@@ -113,26 +61,25 @@ namespace WebAPI.Controllers
             {
                 return Unauthorized();
             }
-
         }
 
         [AllowAnonymous]
         [Produces("application/json")]
         [HttpPost("/api/AdicionaUsuarioIdentity")]
-        public async Task<IActionResult> AdicionaUsuarioIdentity([FromBody] Login login)
+        public async Task<IActionResult> AdicionaUsuarioIdentity([FromBody] UserModel userModel)
         {
-            if (string.IsNullOrWhiteSpace(login.email) || string.IsNullOrWhiteSpace(login.senha))
+            if (string.IsNullOrWhiteSpace(userModel.email) || string.IsNullOrWhiteSpace(userModel.senha))
                 return Ok("Falta alguns dados");
 
             var user = new ApplicationUser
             {
-                UserName = login.email,
-                Email = login.email,
-                Celular = login.celular,
-                Idade = login.idade,
+                UserName = userModel.email,
+                Email = userModel.email,
+                Celular = userModel.celular,
+                Idade = userModel.idade,
                 Tipo = TipoUsuario.Operacao,
             };
-            var resultado = await _userManager.CreateAsync(user, login.senha);
+            var resultado = await _userManager.CreateAsync(user, userModel.senha);
 
             if (resultado.Errors.Any())
             {
@@ -152,8 +99,57 @@ namespace WebAPI.Controllers
                 return Ok("Usuário Adicionado com Sucesso");
             else
                 return Ok("Erro ao confirmar usuários");
-
         }
-
     }
 }
+
+#region Métodos sem Identity -  não criptografa os dados
+//[AllowAnonymous]
+//[Produces("application/json")]
+//[HttpPost("/api/CriarToken")]
+//public async Task<IActionResult> CriarToken([FromBody] userModel userModel)
+//{
+//    if (string.IsNullOrWhiteSpace(userModel.email) || string.IsNullOrWhiteSpace(userModel.senha))
+//        return Unauthorized();
+
+//    var resultado = await _IAplicacaoUsuario.ExisteUsuario(userModel.email, userModel.senha);
+//    if (resultado)
+//    {
+//        var secKey = JwtSecurityKey.Create("Secret_Key-12345678901234567890123456789012");
+//        var idUsuario = await _IAplicacaoUsuario.RetornaIdUsuario(userModel.email);
+//        if (idUsuario == null)
+//            return NotFound();
+//        var token = new TokenJWTBuilder()
+//        .AddSecurityKey(secKey)
+//        .AddSubject("Empresa - Canal Dev Net Core")
+//        .AddIssuer("Teste.Securiry.Bearer")
+//        .AddAudience("Teste.Securiry.Bearer")
+//        .AddClaim("idUsuario", idUsuario)
+//        .AddExpiry(5)
+//        .Builder();
+
+//        return Ok(token.value);
+//    }
+//    else
+//    {
+//        return Unauthorized();
+//    }
+//}
+
+//[AllowAnonymous]
+//[Produces("application/json")]
+//[HttpPost("/api/AdicionaUsuario")]
+//public async Task<IActionResult> AdicionaUsuario([FromBody] userModel userModel)
+//{
+//    if (string.IsNullOrWhiteSpace(userModel.email) || string.IsNullOrWhiteSpace(userModel.senha))
+//        return Ok("Falta alguns dados");
+
+//    var resultado = await
+//        _IAplicacaoUsuario.AdicionaUsuario(userModel.email, userModel.senha, userModel.idade, userModel.celular);
+
+//    if (resultado)
+//        return Ok("Usuário Adicionado com Sucesso");
+//    else
+//        return Ok("Erro ao adicionar usuário");
+//}
+#endregion

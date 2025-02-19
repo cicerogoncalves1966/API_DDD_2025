@@ -13,13 +13,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System;
 using WebAPI.Token;
 
 namespace WebAPI
 {
     public class Startup
     {
+        string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -32,7 +33,15 @@ namespace WebAPI
         {
 
             // Configurações de CORS
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  policy =>
+                                  {
+                                      policy.WithOrigins("http://localhost:4200",
+                                                          "http://www.contoso.com");
+                                  });
+            });
 
             // *** CONFIGURAÇÃO PARA RODAR COM SQL-SERVER *********************
             //services.AddDbContext<Contexto>(options =>
@@ -104,22 +113,29 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            // Configurações de CORS - Lista de URLs com permissão de acesso
-            var listURL1 = "https://www.mestresdaweb.com.br/";
-            var listURL2 = "https://www.youtube.com/";
-            app.UseCors(c => c.WithOrigins(listURL1, listURL2));
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseRouting();
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPI v1"));
+
+                // Não usa CORS, quando for ambiente de Desenvolvimento
+                app.UseCors(c => c
+                   .AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader());
+            }
+            else
+            {
+                app.UseCors(MyAllowSpecificOrigins);
             }
 
-            app.UseRouting();
-
-            app.UseAuthentication();
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {

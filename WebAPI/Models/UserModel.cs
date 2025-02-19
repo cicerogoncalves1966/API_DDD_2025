@@ -1,6 +1,6 @@
 ﻿namespace WebAPI.Models
 {
-    public class Login
+    public class UserModel
     {
         public string email { get; set; }
         public string senha { get; set; }
