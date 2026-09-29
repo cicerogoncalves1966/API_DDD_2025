@@ -48,7 +48,7 @@ namespace WebAPI.Controllers
                 // Secret_Key - Tem que ser uma chave de pelo menos 32 caracteres ---
                 var token = new TokenJWTBuilder()
                  .AddSecurityKey(JwtSecurityKey.Create("Secret_Key-123456789012345678901"))
-                 .AddSubject("Empresa - Canal Dev Net Core")
+                 .AddSubject("Empresa - JCDev Net Core")
                  .AddIssuer("Teste.Securiry.Bearer")
                  .AddAudience("Teste.Securiry.Bearer")
                  .AddClaim("idUsuario", idUsuario)

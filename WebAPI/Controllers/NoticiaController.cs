@@ -34,7 +34,7 @@ namespace WebAPI.Controllers
             var novaNoticia = new Noticia();
             novaNoticia.Titulo = noticia.Titulo;
             novaNoticia.Informacao = noticia.Informacao;
-            novaNoticia.UserId = await RetornaIdUsuarioLogado();
+            novaNoticia.UserId = RetornaIdUsuarioLogado();
 
             await _IAplicaoNoticia.AdicionaNoticia(novaNoticia);
 
@@ -49,7 +49,7 @@ namespace WebAPI.Controllers
             var atualizaNoticia = await _IAplicaoNoticia.BuscarPorId(noticia.IdNoticia);
             atualizaNoticia.Titulo = noticia.Titulo;
             atualizaNoticia.Informacao = noticia.Informacao;
-            atualizaNoticia.UserId = await RetornaIdUsuarioLogado();
+            atualizaNoticia.UserId = RetornaIdUsuarioLogado();
 
             await _IAplicaoNoticia.AtualizaNoticia(atualizaNoticia);
 
@@ -78,7 +78,7 @@ namespace WebAPI.Controllers
             return retNoticia;
         }
 
-        private async Task<string> RetornaIdUsuarioLogado()
+        private string RetornaIdUsuarioLogado()
         {
             if (User != null)
             {

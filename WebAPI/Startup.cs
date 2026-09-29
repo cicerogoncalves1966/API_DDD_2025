@@ -7,7 +7,6 @@ using Dominio.Servicos;
 using Entidades.Entidades;
 using Infraestrutura.Configuracoes;
 using Infraestrutura.Repositorio;
-using Infraestrutura.Repositorio.Genericos;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -53,7 +52,7 @@ namespace WebAPI
             //    .AddEntityFrameworkStores<Contexto>();
 
             // *** CONFIGURAÇÃO PARA BANCO DE DADOS POSTGRE-SQL ***************
-            services.AddDbContext<Contexto>(options =>
+            services.AddDbContext<Infraestrutura.Configuracoes.Contexto>(options =>
              options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
             // *** CONFIGURAÇÃO .NET 8 PARA ADDIDENTITY ***********************
@@ -62,7 +61,7 @@ namespace WebAPI
                     .AddDefaultTokenProviders();
 
             // INTERFACE E REPOSITORIO
-            services.AddSingleton(typeof(IGenericos<>), typeof(RepositorioGenerico<>));
+            services.AddSingleton(typeof(IGenericos<>), typeof(Infraestrutura.Repositorio.Genericos.RepositorioGenerico<>));
             services.AddSingleton<INoticia, RepositorioNoticia>();
             services.AddSingleton<IUsuario, RepositorioUsuario>();
 
@@ -85,7 +84,7 @@ namespace WebAPI
 
                             ValidIssuer = "Teste.Securiry.Bearer",
                             ValidAudience = "Teste.Securiry.Bearer",
-                            IssuerSigningKey = JwtSecurityKey.Create("Secret_Key-12345678")
+                            IssuerSigningKey = JwtSecurityKey.Create("Secret_Key-123456789012345678901")
                         };
 
                         option.Events = new JwtBearerEvents
@@ -113,10 +112,6 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseRouting();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -131,16 +126,35 @@ namespace WebAPI
             }
             else
             {
+                app.UseHttpsRedirection();
+                app.UseStaticFiles();
                 app.UseCors(MyAllowSpecificOrigins);
             }
-
-            app.UseAuthorization();
+            app.UseRouting();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //    app.UseSwagger();
+            //    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPI v1"));
+            //}
+
+            //app.UseRouting();
+
+            //app.UseAuthentication();
+            //app.UseAuthorization();
+
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllers();
+            //});
         }
     }
 }
