@@ -1,6 +1,8 @@
 ﻿using Dominio.Interfaces;
 using Dominio.Interfaces.InterfaceServicos;
 using Entidades.Entidades;
+using Entidades.Entidades.ViewModels;
+using System.Globalization;
 
 namespace Dominio.Servicos
 {
@@ -45,6 +47,29 @@ namespace Dominio.Servicos
         public async Task<List<Noticia>> ListarNoticiasAtivas()
         {
             return await _INoticia.ListarNoticias(n => n.Ativo);
+        }
+
+        public async Task<List<NoticiaViewModel>> ListarNoticiasCustomizadas()
+        {
+            var listarNoticiasCustomizadas = await _INoticia.ListarNoticiasCustomizadas();
+            var retorno = (
+                   from noticia in listarNoticiasCustomizadas
+                   select new NoticiaViewModel { 
+                       Id = noticia.Id,
+                       Titulo = noticia.Titulo,
+                       Informacao = noticia.Informacao,
+                       DataCadastro = noticia.DataCadastro.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+                       Usuario = SeparaEmail(noticia.ApplicationUser.Email)
+                   }).ToList();
+                
+            
+            return retorno;
+        }
+
+        private string SeparaEmail(string email)
+        {
+            var emailSeparado = email.Split("@");
+            return emailSeparado[0];
         }
     }
 }

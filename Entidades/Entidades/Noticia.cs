@@ -22,7 +22,7 @@ namespace Entidades.Entidades
         public bool Ativo { get; set; }
 
         [Column("NTC_DATA_CADASTRO")]
-        public DateTime? DataCadastro { get; set; }
+        public DateTime DataCadastro { get; set; }
 
         [Column("NTC_DATA_ALTERACAO")]
         public DateTime? DataAlteracao { get; set; }

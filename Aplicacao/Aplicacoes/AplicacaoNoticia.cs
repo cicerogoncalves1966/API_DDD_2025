@@ -2,6 +2,7 @@
 using Dominio.Interfaces;
 using Dominio.Interfaces.InterfaceServicos;
 using Entidades.Entidades;
+using Entidades.Entidades.ViewModels;
 
 namespace Aplicacao.Aplicacoes
 {
@@ -24,6 +25,11 @@ namespace Aplicacao.Aplicacoes
         public async Task AtualizaNoticia(Noticia noticia)
         {
             await _IServicoNoticia.AtualizaNoticia(noticia);
+        }
+
+        public async Task<List<NoticiaViewModel>> ListarNoticiasCustomizadas()
+        {
+            return await _IServicoNoticia.ListarNoticiasCustomizadas();
         }
 
         public async Task<List<Noticia>> ListarNoticiasAtivas()
@@ -56,6 +62,7 @@ namespace Aplicacao.Aplicacoes
         {
             return await _INoticia.Listar();
         }
+
         #endregion
     }
 }

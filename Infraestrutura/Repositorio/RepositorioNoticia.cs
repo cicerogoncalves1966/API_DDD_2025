@@ -18,10 +18,29 @@ namespace Infraestrutura.Repositorio
 
         public async Task<List<Noticia>> ListarNoticias(Expression<Func<Noticia, bool>> exNoticia)
         {
-
             using (var banco = new Contexto(_optionsBuilder))
             {
                 return await banco.Noticia.Where(exNoticia).AsNoTracking().ToListAsync();
+            }
+        }
+
+        public async Task<List<Noticia>> ListarNoticiasCustomizadas()
+        {
+            using (var banco = new Contexto(_optionsBuilder))
+            {
+                var listaNoticias = await (from noticia in banco.Noticia
+                                     join usuario in banco.ApplicationUser
+                                       on noticia.UserId equals usuario.Id
+                                     select new Noticia
+                                     {
+                                         Id = noticia.Id,
+                                         Titulo = noticia.Titulo,
+                                         Informacao = noticia.Informacao,
+                                         DataCadastro = noticia.DataCadastro,
+                                         ApplicationUser = usuario
+                                     }
+                                     ).ToListAsync();
+                return listaNoticias;
             }
         }
     }

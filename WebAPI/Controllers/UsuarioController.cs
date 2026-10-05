@@ -52,7 +52,7 @@ namespace WebAPI.Controllers
                  .AddIssuer("Teste.Securiry.Bearer")
                  .AddAudience("Teste.Securiry.Bearer")
                  .AddClaim("idUsuario", idUsuario)
-                 .AddExpiry(5)
+                 .AddExpiry(15)
                  .Builder();
 
                 return Ok(token.value);
