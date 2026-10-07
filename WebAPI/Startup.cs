@@ -30,6 +30,7 @@ namespace WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddProblemDetails();
             services.AddEndpointsApiExplorer();
             // Configurações de CORS
             services.AddCors(options =>
@@ -167,6 +168,7 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseExceptionHandler();
             app.UseRouting();
 
             if (env.IsDevelopment())
@@ -174,7 +176,6 @@ namespace WebAPI
                 // Ativa a política permissiva em modo Development
                 app.UseCors("DevelopmentCorsPolicy");
 
-                app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Notícias .NET 8 v1"));
             }
