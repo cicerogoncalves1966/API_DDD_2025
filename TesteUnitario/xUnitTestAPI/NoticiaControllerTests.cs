@@ -149,7 +149,7 @@ public class NoticiaControllerTests
         IdNoticia = id,
         Titulo = titulo,
         Informacao = informacao,
-        IdSuario = UsuarioId
+        IdUsuario = UsuarioId
     };
 
     private static Noticia CriarNoticia(int id, string titulo) => new()
